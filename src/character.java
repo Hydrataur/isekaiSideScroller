@@ -26,10 +26,13 @@ public class character {
 
     private boolean direction_right;
 
-    private level_one lvl;
+    private boolean moving_right;
+    private boolean moving_left;
+
+    private level lvl;
 
     public character(int x, int y, int current_HP, int max_HP, int movement_speed, String char_image_path,
-                     int img_width, int img_height, boolean direction_right, level_one lvl, int frames, int frame_rows, int frame_cols){
+                     int img_width, int img_height, boolean direction_right, level lvl, int frames, int frame_rows, int frame_cols){
         this.x = x;
         this.y = y;
         this.current_HP = current_HP;
@@ -64,4 +67,35 @@ public class character {
         return char_image;
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public boolean isMoving_right() {
+        return moving_right;
+    }
+
+    public void setMoving_right(boolean moving_right) {
+        this.moving_right = moving_right;
+    }
+
+    public boolean isMoving_left() {
+        return moving_left;
+    }
+
+    public void setMoving_left(boolean moving_left) {
+        this.moving_left = moving_left;
+    }
 }
