@@ -1,8 +1,8 @@
-public class surface {
+public class Surface {
 
     private int x, y, width, height;
 
-    public surface(int x, int y, int width, int height) {
+    public Surface(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;

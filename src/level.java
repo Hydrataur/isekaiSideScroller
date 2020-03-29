@@ -6,14 +6,14 @@ import java.awt.event.KeyEvent;
 
 public class level extends JPanel implements ActionListener {
 
-    surface[] surfaces;
+    Surface[] surfaces;
 
     Timer timer;
 
     protag mc;
 
     public level(){
-        mc = new protag(400, 0, 0, 0, 10, this);
+        mc = new protag(400, 500, 0, 0, 10, this);
 
         addKeyListener(new Keys());
         setFocusable(true);
@@ -25,13 +25,7 @@ public class level extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        if (mc.isMoving_right())
-            if (!general_functions.checkCollisions(mc, surfaces))
-                mc.setX(mc.getX() + mc.getMovement_speed());
-
-        if (mc.isMoving_left())
-            if (!general_functions.checkCollisions(mc, surfaces))
-                mc.setX(mc.getX() - mc.getMovement_speed());
+        mc.handle_movement(surfaces);
 
         repaint();
     }
@@ -52,6 +46,8 @@ public class level extends JPanel implements ActionListener {
                     mc.setMoving_left(true);
                     mc.setDirection_right(false);
                     break;
+                case KeyEvent.VK_SPACE:
+                    mc.jump();
             }
         }
 

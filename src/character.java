@@ -44,13 +44,42 @@ public class character {
     }
 
     public Image get_char_final_img(){
-        System.out.println(moving_left + " " + moving_right);
         if (moving_left || moving_right)
             char_icon = new ImageIcon("images/protag_walk.gif");
         else
             char_icon = new ImageIcon("images/protag_standing.png");
         char_image = char_icon.getImage();
         return char_image;
+    }
+
+    public void handle_movement(Surface[] surfaces){
+        if (general_functions.checkVerticalCollisions(this, surfaces)) {
+            falling = false;
+            falling_velocity = 0;
+        }
+        else {
+            falling = true;
+            falling_velocity += 10;
+            y += falling_velocity;
+        }
+
+        if (this.isMoving_right())
+            if (!general_functions.checkHorizontalCollisions(this, surfaces))
+                this.setX(this.getX() + this.getMovement_speed());
+
+        if (this.isMoving_left())
+            if (!general_functions.checkHorizontalCollisions(this, surfaces))
+                this.setX(this.getX() - this.getMovement_speed());
+
+        general_functions.checkVerticalCollisions(this, surfaces);
+    }
+
+    public void jump(){
+        if (falling == true)
+            return;
+        falling = true;
+        falling_velocity = -50;
+        y -= 1;
     }
 
     public boolean isDirection_right() {
@@ -103,5 +132,21 @@ public class character {
 
     public void setDirection_right(boolean direction_right) {
         this.direction_right = direction_right;
+    }
+
+    public boolean isFalling() {
+        return falling;
+    }
+
+    public void setFalling(boolean falling) {
+        this.falling = falling;
+    }
+
+    public int getFalling_velocity() {
+        return falling_velocity;
+    }
+
+    public void setFalling_velocity(int falling_velocity) {
+        this.falling_velocity = falling_velocity;
     }
 }
