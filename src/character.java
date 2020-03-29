@@ -7,22 +7,19 @@ public class character {
     private int x;
     private int y;
 
+    private boolean falling;
+    private int falling_velocity;
+
     private int current_HP;
     private int max_HP;
 
     private int movement_speed;
 
     private ImageIcon char_icon;
-    private Image char_spritesheet;
-    private BufferedImage char_image;
+    private Image char_image;
 
     private int img_width;
     private int img_height;
-
-    private int current_frame;
-    private int frames;
-    private int frame_rows;
-    private int frame_cols;
 
     private boolean direction_right;
 
@@ -32,39 +29,32 @@ public class character {
     private level lvl;
 
     public character(int x, int y, int current_HP, int max_HP, int movement_speed, String char_image_path,
-                     int img_width, int img_height, boolean direction_right, level lvl, int frames, int frame_rows, int frame_cols){
+                     int img_width, int img_height, boolean direction_right, level lvl){
         this.x = x;
         this.y = y;
         this.current_HP = current_HP;
         this.max_HP = max_HP;
         this.movement_speed = movement_speed;
         this.char_icon = new ImageIcon("images/" + char_image_path);
-        this.char_spritesheet = char_icon.getImage();
+        this.char_image = char_icon.getImage();
         this.img_width = img_width;
         this.img_height = img_height;
         this.direction_right = direction_right;
-        this.current_frame = 0;
         this.lvl = lvl;
-        this.frames = frames;
-        this.frame_rows = frame_rows;
-        this.frame_cols = frame_cols;
     }
 
-    public BufferedImage get_char_final_img(){
-        char_image = new BufferedImage(char_spritesheet.getWidth(null) / frame_rows,
-                char_spritesheet.getHeight(null) / frame_cols, BufferedImage.TYPE_INT_ARGB);
-        Graphics char_graphics = char_image.getGraphics();
-
-        for(int i = 0; i < frame_rows; i++){
-            if (current_frame / frame_rows == i)
-                char_graphics.drawImage(char_spritesheet, (current_frame % frame_cols) * (-img_width), i * (-img_height), img_width * frame_rows, img_height * frame_cols, lvl);
-        }
-
-        current_frame++;
-        if (current_frame == frames)
-            current_frame = 0;
-
+    public Image get_char_final_img(){
+        System.out.println(moving_left + " " + moving_right);
+        if (moving_left || moving_right)
+            char_icon = new ImageIcon("images/protag_walk.gif");
+        else
+            char_icon = new ImageIcon("images/protag_standing.png");
+        char_image = char_icon.getImage();
         return char_image;
+    }
+
+    public boolean isDirection_right() {
+        return direction_right;
     }
 
     public int getX() {
@@ -83,6 +73,14 @@ public class character {
         this.y = y;
     }
 
+    public int getImg_width() {
+        return img_width;
+    }
+
+    public int getImg_height() {
+        return img_height;
+    }
+
     public boolean isMoving_right() {
         return moving_right;
     }
@@ -97,5 +95,13 @@ public class character {
 
     public void setMoving_left(boolean moving_left) {
         this.moving_left = moving_left;
+    }
+
+    public int getMovement_speed() {
+        return movement_speed;
+    }
+
+    public void setDirection_right(boolean direction_right) {
+        this.direction_right = direction_right;
     }
 }

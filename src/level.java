@@ -6,12 +6,14 @@ import java.awt.event.KeyEvent;
 
 public class level extends JPanel implements ActionListener {
 
+    surface[] surfaces;
+
     Timer timer;
 
     protag mc;
 
     public level(){
-        mc = new protag(0, 0, 0, 0, 0, this);
+        mc = new protag(400, 0, 0, 0, 10, this);
 
         addKeyListener(new Keys());
         setFocusable(true);
@@ -24,9 +26,12 @@ public class level extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
         if (mc.isMoving_right())
-            mc.setX(mc.getX() + 10);
+            if (!general_functions.checkCollisions(mc, surfaces))
+                mc.setX(mc.getX() + mc.getMovement_speed());
+
         if (mc.isMoving_left())
-            mc.setX(mc.getX() - 10);
+            if (!general_functions.checkCollisions(mc, surfaces))
+                mc.setX(mc.getX() - mc.getMovement_speed());
 
         repaint();
     }
@@ -38,12 +43,16 @@ public class level extends JPanel implements ActionListener {
             super.keyPressed(e);
             int key = e.getKeyCode();
 
-            if (key == KeyEvent.VK_D)
-                mc.setMoving_right(true);
-
-            if (key == KeyEvent.VK_A)
-                mc.setMoving_left(true);
-
+            switch (key){
+                case KeyEvent.VK_D:
+                    mc.setMoving_right(true);
+                    mc.setDirection_right(true);
+                    break;
+                case KeyEvent.VK_A:
+                    mc.setMoving_left(true);
+                    mc.setDirection_right(false);
+                    break;
+            }
         }
 
         @Override
@@ -52,11 +61,14 @@ public class level extends JPanel implements ActionListener {
 
             int key = e.getKeyCode();
 
-            if (key == KeyEvent.VK_D)
-                mc.setMoving_right(false);
-
-            if (key == KeyEvent.VK_A)
-                mc.setMoving_left(false);
+            switch (key){
+                case KeyEvent.VK_D:
+                    mc.setMoving_right(false);
+                    break;
+                case KeyEvent.VK_A:
+                    mc.setMoving_left(false);
+                    break;
+            }
         }
     }
 
