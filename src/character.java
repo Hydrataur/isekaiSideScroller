@@ -53,6 +53,14 @@ public class character {
     }
 
     public void handle_movement(Surface[] surfaces){
+        if (this.isMoving_right())
+            if (!general_functions.checkHorizontalCollisions(this, surfaces))
+                this.setX(this.getX() + this.getMovement_speed());
+
+        if (this.isMoving_left())
+            if (!general_functions.checkHorizontalCollisions(this, surfaces))
+                this.setX(this.getX() - this.getMovement_speed());
+
         if (general_functions.checkVerticalCollisions(this, surfaces)) {
             falling = false;
             falling_velocity = 0;
@@ -62,14 +70,6 @@ public class character {
             falling_velocity += 10;
             y += falling_velocity;
         }
-
-        if (this.isMoving_right())
-            if (!general_functions.checkHorizontalCollisions(this, surfaces))
-                this.setX(this.getX() + this.getMovement_speed());
-
-        if (this.isMoving_left())
-            if (!general_functions.checkHorizontalCollisions(this, surfaces))
-                this.setX(this.getX() - this.getMovement_speed());
 
         general_functions.checkVerticalCollisions(this, surfaces);
     }
