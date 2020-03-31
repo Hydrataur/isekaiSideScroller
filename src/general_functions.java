@@ -4,12 +4,24 @@ public class general_functions {
         for (Surface surf : surfaces) {
             if (chara.isMoving_right())
                 if (chara.getX() + chara.getImg_width() < surf.getX() && chara.getX() + chara.getImg_width() + chara.getMovement_speed() >= surf.getX())
-                    if (chara.getY() + chara.getImg_height() > surf.getY())
+                    if (chara.getY() + chara.getImg_height() > surf.getY()) {
+                        if (chara instanceof Enemy) {
+                            chara.setMoving_right(false);
+                            chara.setMoving_left(true);
+                            chara.setDirection_right(false);
+                        }
                         return true;
+                    }
             if (chara.isMoving_left())
                 if (chara.getX() > surf.getX() + surf.getWidth() && chara.getX() - chara.getMovement_speed() <= surf.getX() + surf.getWidth())
-                    if (chara.getY() + chara.getImg_height() > surf.getY())
+                    if (chara.getY() + chara.getImg_height() > surf.getY()) {
+                        if (chara instanceof Enemy) {
+                            chara.setMoving_right(true);
+                            chara.setMoving_left(false);
+                            chara.setDirection_right(true);
+                        }
                         return true;
+                    }
         }
         return false;
     }

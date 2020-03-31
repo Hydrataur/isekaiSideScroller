@@ -7,13 +7,21 @@ import java.awt.event.KeyEvent;
 public class level extends JPanel implements ActionListener {
 
     Surface[] surfaces;
+    character[] characters;
 
     Timer timer;
 
-    protag mc;
+    int distance;
 
     public level(){
-        mc = new protag(400, 500, 0, 0, 10, this);
+        characters = new character[2];
+        characters[0] = new protag(400, 500, 0, 0, 10, this);
+
+        characters[1] = new Enemy(1000, 500, 0, 0, 5, "roller.gif", 54, 54, true, this);
+        characters[1].setMoving_right(true);
+        characters[1].setMoving_left(false);
+
+        distance = 0;
 
         addKeyListener(new Keys());
         setFocusable(true);
@@ -24,9 +32,9 @@ public class level extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
-        mc.handle_movement(surfaces);
-
+        for (character Character : characters) {
+            distance = Character.handle_movement(surfaces, distance);
+        }
         repaint();
     }
 
@@ -39,15 +47,17 @@ public class level extends JPanel implements ActionListener {
 
             switch (key){
                 case KeyEvent.VK_D:
-                    mc.setMoving_right(true);
-                    mc.setDirection_right(true);
+                    characters[0].setMoving_right(true);
+                    characters[0].setMoving_left(false);
+                    characters[0].setDirection_right(true);
                     break;
                 case KeyEvent.VK_A:
-                    mc.setMoving_left(true);
-                    mc.setDirection_right(false);
+                    characters[0].setMoving_right(false);
+                    characters[0].setMoving_left(true);
+                    characters[0].setDirection_right(false);
                     break;
                 case KeyEvent.VK_SPACE:
-                    mc.jump();
+                    characters[0].jump();
             }
         }
 
@@ -59,10 +69,10 @@ public class level extends JPanel implements ActionListener {
 
             switch (key){
                 case KeyEvent.VK_D:
-                    mc.setMoving_right(false);
+                    characters[0].setMoving_right(false);
                     break;
                 case KeyEvent.VK_A:
-                    mc.setMoving_left(false);
+                    characters[0].setMoving_left(false);
                     break;
             }
         }

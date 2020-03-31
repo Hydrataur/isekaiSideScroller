@@ -4,29 +4,29 @@ import java.awt.image.BufferedImage;
 
 public class character {
 
-    private int x;
-    private int y;
+    int x;
+    int y;
 
-    private boolean falling;
-    private int falling_velocity;
+    boolean falling;
+    int falling_velocity;
 
-    private int current_HP;
-    private int max_HP;
+    int current_HP;
+    int max_HP;
 
-    private int movement_speed;
+    int movement_speed;
 
-    private ImageIcon char_icon;
-    private Image char_image;
+    ImageIcon char_icon;
+    Image char_image;
 
-    private int img_width;
-    private int img_height;
+    int img_width;
+    int img_height;
 
-    private boolean direction_right;
+    boolean direction_right;
 
-    private boolean moving_right;
-    private boolean moving_left;
+    boolean moving_right;
+    boolean moving_left;
 
-    private level lvl;
+    level lvl;
 
     public character(int x, int y, int current_HP, int max_HP, int movement_speed, String char_image_path,
                      int img_width, int img_height, boolean direction_right, level lvl){
@@ -45,21 +45,24 @@ public class character {
 
     public Image get_char_final_img(){
         if (moving_left || moving_right)
-            char_icon = new ImageIcon("images/protag_walk.gif");
-        else
-            char_icon = new ImageIcon("images/protag_standing.png");
+            char_icon = new ImageIcon("images/roller.gif");
         char_image = char_icon.getImage();
         return char_image;
     }
 
-    public void handle_movement(Surface[] surfaces){
+    public int handle_movement(Surface[] surfaces, int distance){
         if (this.isMoving_right())
-            if (!general_functions.checkHorizontalCollisions(this, surfaces))
+            if (!general_functions.checkHorizontalCollisions(this, surfaces)) {
                 this.setX(this.getX() + this.getMovement_speed());
-
+                if (this instanceof protag)
+                    distance += this.getMovement_speed();
+            }
         if (this.isMoving_left())
-            if (!general_functions.checkHorizontalCollisions(this, surfaces))
+            if (!general_functions.checkHorizontalCollisions(this, surfaces)) {
                 this.setX(this.getX() - this.getMovement_speed());
+                if (this instanceof protag)
+                    distance -= this.getMovement_speed();
+            }
 
         if (general_functions.checkVerticalCollisions(this, surfaces)) {
             falling = false;
@@ -72,6 +75,8 @@ public class character {
         }
 
         general_functions.checkVerticalCollisions(this, surfaces);
+
+        return distance;
     }
 
     public void jump(){
