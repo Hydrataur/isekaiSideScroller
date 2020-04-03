@@ -8,20 +8,23 @@ public class level extends JPanel implements ActionListener {
 
     Surface[] surfaces;
     character[] characters;
+    character[] renderedCharacters;
 
     Timer timer;
 
     int distance;
 
     public level(){
-        characters = new character[2];
-        characters[0] = new protag(400, 500, 0, 0, 10, this);
+        distance = 0;
 
-        characters[1] = new Enemy(1000, 500, 0, 0, 5, "roller.gif", 54, 54, true, this);
+        characters = new character[2];
+        characters[0] = new protag(400, 500, 10, 10, 10, this);
+
+        characters[1] = new Enemy(1000, 500, 5, 5, 5, "roller.gif", 54, 54, true, this);
         characters[1].setMoving_right(true);
         characters[1].setMoving_left(false);
 
-        distance = 0;
+        renderedCharacters = general_functions.returnRenderedCharacterArray(characters, 1920, 1080, distance);
 
         addKeyListener(new Keys());
         setFocusable(true);
@@ -32,8 +35,12 @@ public class level extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        for (character Character : characters) {
+        renderedCharacters = general_functions.returnRenderedCharacterArray(characters, 1920, 1080, distance);
+        for (character Character : renderedCharacters) {
             distance = Character.handle_movement(surfaces, distance);
+            if (Character instanceof Enemy)
+                if (general_functions.checkEnemyCollisions((protag) characters[0], (Enemy) Character))
+                    general_functions.playerEnemyInteraction((protag) characters[0], (Enemy) Character);
         }
         repaint();
     }

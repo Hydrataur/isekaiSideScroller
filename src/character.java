@@ -80,11 +80,19 @@ public class character {
     }
 
     public void jump(){
-        if (falling == true)
+        if (falling)
             return;
         falling = true;
         falling_velocity = -50;
         y -= 1;
+    }
+
+    public int getCurrent_HP() {
+        return current_HP;
+    }
+
+    public void setCurrent_HP(int current_HP) {
+        this.current_HP = current_HP;
     }
 
     public boolean isDirection_right() {

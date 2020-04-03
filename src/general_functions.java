@@ -1,3 +1,5 @@
+import java.lang.reflect.Type;
+
 public class general_functions {
 
     public static boolean checkHorizontalCollisions(character chara, Surface[] surfaces){
@@ -35,6 +37,52 @@ public class general_functions {
             }
         }
         return false;
+    }
+
+    public static boolean checkEnemyCollisions(protag player, Enemy enemy){
+        if (player.getX() + player.getImg_width() >= enemy.getX() && player.getX() <= enemy.getX() + enemy.getImg_width()
+        && player.getY() + player.getImg_height() >= enemy.getY() && player.getY() <= enemy.getY() + enemy.getImg_height())
+            return true;
+        return false;
+    }
+
+    public static void playerEnemyInteraction(protag player, Enemy enemy){
+        if (player.getFalling_velocity() >= 0 && player.getY() + player.getImg_height() < enemy.getY() + enemy.getImg_height() / 2)
+            enemy.setCurrent_HP(0);
+        else {
+            player.setCurrent_HP(player.getCurrent_HP() - 2);
+            if (player.getX() < enemy.getX()) {
+                player.setX(player.getX() - 30);
+                enemy.setX(enemy.getX() + 30);
+            }
+            else {
+                player.setX(player.getX() + 30);
+                enemy.setX(enemy.getX() - 30);
+            }
+
+        }
+    }
+
+    public static character[] returnRenderedCharacterArray(character[] characters, int screen_width, int screen_height, int distance){
+        int x, y;
+        characterNode node = new characterNode(characters[0], null);
+        for (character c : characters) {
+            x = c.getX() - distance;
+            y = c.getY();
+            if (c.getCurrent_HP() > 0)
+                if (x > 0 && x < screen_width && y > 0 && y < screen_height)
+                    node = new characterNode(c, node);
+
+        }
+        character[] rendered = new character[node.getLength()];
+        int counter = 0;
+        while (node.getNext() != null){
+            rendered[counter] = node.getCharacter();
+            counter++;
+            node = node.getNext();
+        }
+
+        return rendered;
     }
 
 }
