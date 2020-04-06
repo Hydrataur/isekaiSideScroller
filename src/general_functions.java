@@ -52,24 +52,35 @@ public class general_functions {
             boolean playerTooCloseToWall = false;
             if (player.getX() < enemy.getX()) {
                 for (Surface surface : surfaces)
-                    if (surface.characterOverlap(player, -30, 0)) {
+                    if (surface.characterOverlap(player, -enemy.getKnockback(), 0)) {
                         playerTooCloseToWall = true;
                         break;
                     }
 
                 if (playerTooCloseToWall) {
-                    enemy.setX(enemy.getX() + 60);
+                    enemy.setX(enemy.getX() + enemy.getKnockback() * 2);
                 }
                 else {
-                    player.setX(player.getX() - 30);
-                    distance.setxDis(distance.getxDis() - 30);
-                    enemy.setX(enemy.getX() + 30);
+                    player.setX(player.getX() - enemy.getKnockback());
+                    distance.setxDis(distance.getxDis() - enemy.getKnockback());
+                    enemy.setX(enemy.getX() + enemy.getKnockback());
                 }
             }
             else {
-                player.setX(player.getX() + 30);
-                distance.setxDis(distance.getxDis() + 30);
-                enemy.setX(enemy.getX() - 30);
+                for (Surface surface : surfaces)
+                    if (surface.characterOverlap(player, enemy.getKnockback(), 0)) {
+                        playerTooCloseToWall = true;
+                        break;
+                    }
+
+                if (playerTooCloseToWall) {
+                    enemy.setX(enemy.getX() - enemy.getKnockback() * 2);
+                }
+                else {
+                    player.setX(player.getX() + enemy.getKnockback());
+                    distance.setxDis(distance.getxDis() + enemy.getKnockback());
+                    enemy.setX(enemy.getX() - enemy.getKnockback());
+                }
             }
 
         }

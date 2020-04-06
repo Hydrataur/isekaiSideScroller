@@ -20,7 +20,7 @@ public class level extends JPanel implements ActionListener {
         characters = new character[2];
         characters[0] = new protag(400, 500, 10, 10, 10, this);
 
-        characters[1] = new Enemy(1000, 500, 5, 5, 5, "roller.gif", 54, 54, true, this);
+        characters[1] = new Enemy(1000, 500, 5, 5, 5, "roller.gif", 54, 54, true, this, 30);
         characters[1].setMoving_right(true);
         characters[1].setMoving_left(false);
 
