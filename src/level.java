@@ -12,10 +12,10 @@ public class level extends JPanel implements ActionListener {
 
     Timer timer;
 
-    int distance;
+    Distance distance;
 
     public level(){
-        distance = 0;
+        distance = new Distance();
 
         characters = new character[2];
         characters[0] = new protag(400, 500, 10, 10, 10, this);
@@ -24,7 +24,7 @@ public class level extends JPanel implements ActionListener {
         characters[1].setMoving_right(true);
         characters[1].setMoving_left(false);
 
-        renderedCharacters = general_functions.returnRenderedCharacterArray(characters, 1920, 1080, distance);
+        renderedCharacters = general_functions.returnRenderedCharacterArray(characters, 1920, 1080, distance.getxDis());
 
         addKeyListener(new Keys());
         setFocusable(true);
@@ -35,12 +35,12 @@ public class level extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        renderedCharacters = general_functions.returnRenderedCharacterArray(characters, 1920, 1080, distance);
+        renderedCharacters = general_functions.returnRenderedCharacterArray(characters, 1920, 1080, distance.getxDis());
         for (character Character : renderedCharacters) {
-            distance = Character.handle_movement(surfaces, distance);
+            distance.setxDis(Character.handle_movement(surfaces, distance.getxDis()));
             if (Character instanceof Enemy)
                 if (general_functions.checkEnemyCollisions((protag) characters[0], (Enemy) Character))
-                    general_functions.playerEnemyInteraction((protag) characters[0], (Enemy) Character);
+                    general_functions.playerEnemyInteraction((protag) characters[0], (Enemy) Character, surfaces, distance);
         }
         repaint();
     }

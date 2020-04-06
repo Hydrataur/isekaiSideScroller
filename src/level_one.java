@@ -7,13 +7,13 @@ public class level_one extends level{
 
         for (character Character : renderedCharacters) {
             if (Character.isDirection_right())
-                g.drawImage(Character.get_char_final_img(), Character.getX() - distance, Character.getY(), Character.getImg_width(), Character.getImg_height(), this);
+                g.drawImage(Character.get_char_final_img(), Character.getX() - distance.getxDis(), Character.getY(), Character.getImg_width(), Character.getImg_height(), this);
             else
-                g.drawImage(Character.get_char_final_img(), Character.getX() + Character.getImg_width() - distance, Character.getY(), -Character.getImg_width(), Character.getImg_height(), this);
+                g.drawImage(Character.get_char_final_img(), Character.getX() + Character.getImg_width() - distance.getxDis(), Character.getY(), -Character.getImg_width(), Character.getImg_height(), this);
         }
 
         for (Surface surface : surfaces) {
-            g.drawRect(surface.getX() - distance, surface.getY(), surface.getWidth(), surface.getHeight());
+            g.drawRect(surface.getX() - distance.getxDis(), surface.getY(), surface.getWidth(), surface.getHeight());
         }
     }
 
