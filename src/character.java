@@ -28,11 +28,11 @@ public class character {
 
     level lvl;
 
-    public character(int x, int y, int current_HP, int max_HP, int movement_speed, String char_image_path,
+    public character(int x, int y, int max_HP, int movement_speed, String char_image_path,
                      int img_width, int img_height, boolean direction_right, level lvl){
         this.x = x;
         this.y = y;
-        this.current_HP = current_HP;
+        this.current_HP = max_HP;
         this.max_HP = max_HP;
         this.movement_speed = movement_speed;
         this.char_icon = new ImageIcon("images/" + char_image_path);
